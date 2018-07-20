@@ -1,0 +1,12 @@
+PrecursorCompoundIDs = 1,3,5
+MetFragDatabaseType = SQLite
+SampleName = example_1
+NeutralPrecursorMass = 10
+LocalDatabaseCompoundsTable = info
+LocalDatabaseMassColumn = monoisotopic_mass
+LocalDatabaseFormulaColumn = molecular_formula
+LocalDatabaseInChIColumn = iupac_inchi
+LocalDatabaseInChIKey1Column = iupac_inchi
+LocalDatabaseInChIKey2Column = iupac_inchi
+LocalDatabaseCidColumn = cid
+LocalDatabaseSmilesColumn = smiles
