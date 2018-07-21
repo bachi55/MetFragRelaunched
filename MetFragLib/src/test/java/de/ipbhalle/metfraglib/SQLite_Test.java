@@ -75,7 +75,7 @@ public class SQLite_Test {
     }
 
     @Test
-    public void test() {
+    public void test_query_by_identifier() {
         File parameterFile = new File(this.finalParameterFilePath);
 
         MetFragGlobalSettings settings = null;
@@ -105,6 +105,8 @@ public class SQLite_Test {
         //fetch the scored candidate list
         CandidateList candidateList = mp.getCandidateList();
 
+        assertEquals(candidateList.getNumberElements(), 3);
+        // System.out.println(candidateList.getElement(0).getPropertyNames().toString());
     }
 
 }

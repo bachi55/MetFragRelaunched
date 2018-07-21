@@ -151,7 +151,7 @@ public class LocalMySQLDatabase extends AbstractLocalDatabase {
 	 * @param query
 	 * @return
 	 */
-	protected ResultSet submitQuery(String query) {
+	private ResultSet submitQuery(String query) {
 		ResultSet rs = null; 
 		try {
 			this.driver = new com.mysql.jdbc.Driver();
