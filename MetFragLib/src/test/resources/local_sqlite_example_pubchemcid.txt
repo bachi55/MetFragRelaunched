@@ -1,5 +1,5 @@
 PrecursorCompoundIDs = 1,3,5
-MetFragDatabaseType = SQLite
+MetFragDatabaseType = SQLitePubChem
 SampleName = example_1
 NeutralPrecursorMass = 10
 LocalDatabaseCompoundsTable = info
@@ -10,3 +10,5 @@ LocalDatabaseInChIKey1Column = iupac_inchi
 LocalDatabaseInChIKey2Column = iupac_inchi
 LocalDatabaseCidColumn = cid
 LocalDatabaseSmilesColumn = smiles
+LocalDatabaseInChIKeyColumn = iupac_inchikey
+LocalDatabaseXLogP3Column = xlogp3

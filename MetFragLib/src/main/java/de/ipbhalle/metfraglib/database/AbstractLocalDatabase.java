@@ -30,7 +30,7 @@ public abstract class AbstractLocalDatabase extends AbstractDatabase {
 
 	public AbstractLocalDatabase(Settings settings) {
 		super(settings);
-		this.DATABASE_NAME 			= 	(String) settings.get( 	VariableNames.LOCAL_DATABASE_NAME								); 
+		this.DATABASE_NAME 			= 	(String) settings.get( 	VariableNames.LOCAL_DATABASE_NAME								);
 		this.TABLE_NAME				=	(String) settings.get( 	VariableNames.LOCAL_DATABASE_COMPOUND_TABLE_NAME				);
 		this.PORT					=	(String) settings.get( 	VariableNames.LOCAL_DATABASE_PORT_NUMBER_NAME					);
 		this.SERVER					=	(String) settings.get( 	VariableNames.LOCAL_DATABASE_SERVER_IP_NAME						);

@@ -88,36 +88,40 @@ public class VariableNames {
 	/*
 	 * parameters for local structure database connection
 	 */
-	public static final String LOCAL_DATABASE_NAME				= 	"LocalDatabase";
-	public static final String LOCAL_DATABASE_COMPOUND_TABLE_NAME		= 	"LocalDatabaseCompoundsTable";
-	public static final String LOCAL_DATABASE_PORT_NUMBER_NAME		= 	"LocalDatabasePortNumber";
-	public static final String LOCAL_DATABASE_SERVER_IP_NAME		= 	"LocalDatabaseServerIp";
-	public static final String LOCAL_DATABASE_MASS_COLUMN_NAME		= 	"LocalDatabaseMassColumn";
-	public static final String LOCAL_DATABASE_FORMULA_COLUMN_NAME		= 	"LocalDatabaseFormulaColumn";
-	public static final String LOCAL_DATABASE_INCHI_COLUMN_NAME		= 	"LocalDatabaseInChIColumn";
-	public static final String LOCAL_DATABASE_INCHIKEY1_COLUMN_NAME		= 	"LocalDatabaseInChIKey1Column";
-	public static final String LOCAL_DATABASE_INCHIKEY2_COLUMN_NAME		= 	"LocalDatabaseInChIKey2Column";
-	public static final String LOCAL_DATABASE_CID_COLUMN_NAME		= 	"LocalDatabaseCidColumn";
-	public static final String LOCAL_DATABASE_SMILES_COLUMN_NAME		= 	"LocalDatabaseSmilesColumn";
-	public static final String LOCAL_DATABASE_USER_NAME			= 	"LocalDatabaseUser";
-	public static final String LOCAL_DATABASE_PASSWORD_NAME			= 	"LocalDatabasePassword";
-	public static final String LOCAL_DATABASE_COMPOUND_NAME_COLUMN_NAME			= 	"LocalDatabaseCompoundNameColumn";
-	
+	public static final String LOCAL_DATABASE_NAME				        = "LocalDatabase";
+	public static final String LOCAL_DATABASE_COMPOUND_TABLE_NAME		= "LocalDatabaseCompoundsTable";
+	public static final String LOCAL_DATABASE_PORT_NUMBER_NAME		    = "LocalDatabasePortNumber";
+	public static final String LOCAL_DATABASE_SERVER_IP_NAME		    = "LocalDatabaseServerIp";
+	public static final String LOCAL_DATABASE_MASS_COLUMN_NAME		    = "LocalDatabaseMassColumn";
+	public static final String LOCAL_DATABASE_FORMULA_COLUMN_NAME		= "LocalDatabaseFormulaColumn";
+	public static final String LOCAL_DATABASE_INCHI_COLUMN_NAME		    = "LocalDatabaseInChIColumn";
+	public static final String LOCAL_DATABASE_INCHIKEY1_COLUMN_NAME		= "LocalDatabaseInChIKey1Column";
+	public static final String LOCAL_DATABASE_INCHIKEY2_COLUMN_NAME		= "LocalDatabaseInChIKey2Column";
+	public static final String LOCAL_DATABASE_CID_COLUMN_NAME		    = "LocalDatabaseCidColumn";
+	public static final String LOCAL_DATABASE_SMILES_COLUMN_NAME		= "LocalDatabaseSmilesColumn";
+	public static final String LOCAL_DATABASE_USER_NAME			        = "LocalDatabaseUser";
+	public static final String LOCAL_DATABASE_PASSWORD_NAME			    = "LocalDatabasePassword";
+	public static final String LOCAL_DATABASE_COMPOUND_NAME_COLUMN_NAME	= "LocalDatabaseCompoundNameColumn";
+    public static final String LOCAL_DATABASE_INCHIKEY_COLUMN_NAME 		= "LocalDatabaseInChIKeyColumn";
+    public static final String LOCAL_DATABASE_XLOGP3_COLUMN_NAME        = "LocalDatabaseXLogP3Column";
 
-	public static final String LOCAL_PUBCHEM_DATABASE_NAME					= 	"LocalPubChemDatabase";
-	public static final String LOCAL_PUBCHEM_DATABASE_COMPOUND_TABLE_NAME		= 	"LocalPubChemDatabaseCompoundsTable";
-	public static final String LOCAL_PUBCHEM_DATABASE_PORT_NUMBER_NAME		= 	"LocalPubChemDatabasePortNumber";
-	public static final String LOCAL_PUBCHEM_DATABASE_SERVER_IP_NAME			= 	"LocalPubChemDatabaseServerIp";
-	public static final String LOCAL_PUBCHEM_DATABASE_MASS_COLUMN_NAME		= 	"LocalPubChemDatabaseMassColumn";
-	public static final String LOCAL_PUBCHEM_DATABASE_FORMULA_COLUMN_NAME		= 	"LocalPubChemDatabaseFormulaColumn";
-	public static final String LOCAL_PUBCHEM_DATABASE_INCHI_COLUMN_NAME		= 	"LocalPubChemDatabaseInChIColumn";
-	public static final String LOCAL_PUBCHEM_DATABASE_INCHIKEY1_COLUMN_NAME	= 	"LocalPubChemDatabaseInChIKey1Column";
-	public static final String LOCAL_PUBCHEM_DATABASE_INCHIKEY2_COLUMN_NAME	= 	"LocalPubChemDatabaseInChIKey2Column";
-	public static final String LOCAL_PUBCHEM_DATABASE_CID_COLUMN_NAME			= 	"LocalPubChemDatabaseCidColumn";
-	public static final String LOCAL_PUBCHEM_DATABASE_SMILES_COLUMN_NAME		= 	"LocalPubChemDatabaseSmilesColumn";
-	public static final String LOCAL_PUBCHEM_DATABASE_USER_NAME				= 	"LocalPubChemDatabaseUser";
-	public static final String LOCAL_PUBCHEM_DATABASE_PASSWORD_NAME			= 	"LocalPubChemDatabasePassword";
-	public static final String LOCAL_PUBCHEM_DATABASE_COMPOUND_NAME_COLUMN_NAME		= 	"LocalPubChemDatabaseCompoundNameColumn";
+
+    public static final String LOCAL_PUBCHEM_DATABASE_NAME					    = "LocalPubChemDatabase";
+	public static final String LOCAL_PUBCHEM_DATABASE_COMPOUND_TABLE_NAME		= "LocalPubChemDatabaseCompoundsTable";
+	public static final String LOCAL_PUBCHEM_DATABASE_PORT_NUMBER_NAME		    = "LocalPubChemDatabasePortNumber";
+	public static final String LOCAL_PUBCHEM_DATABASE_SERVER_IP_NAME			= "LocalPubChemDatabaseServerIp";
+	public static final String LOCAL_PUBCHEM_DATABASE_MASS_COLUMN_NAME		    = "LocalPubChemDatabaseMassColumn";
+	public static final String LOCAL_PUBCHEM_DATABASE_FORMULA_COLUMN_NAME		= "LocalPubChemDatabaseFormulaColumn";
+	public static final String LOCAL_PUBCHEM_DATABASE_INCHI_COLUMN_NAME			= "LocalPubChemDatabaseInChIColumn";
+	public static final String LOCAL_PUBCHEM_DATABASE_INCHIKEY1_COLUMN_NAME		= "LocalPubChemDatabaseInChIKey1Column";
+	public static final String LOCAL_PUBCHEM_DATABASE_INCHIKEY2_COLUMN_NAME		= "LocalPubChemDatabaseInChIKey2Column";
+	public static final String LOCAL_PUBCHEM_DATABASE_CID_COLUMN_NAME			= "LocalPubChemDatabaseCidColumn";
+	public static final String LOCAL_PUBCHEM_DATABASE_SMILES_COLUMN_NAME		= "LocalPubChemDatabaseSmilesColumn";
+	public static final String LOCAL_PUBCHEM_DATABASE_USER_NAME					= "LocalPubChemDatabaseUser";
+	public static final String LOCAL_PUBCHEM_DATABASE_PASSWORD_NAME				= "LocalPubChemDatabasePassword";
+	public static final String LOCAL_PUBCHEM_DATABASE_COMPOUND_NAME_COLUMN_NAME	= "LocalPubChemDatabaseCompoundNameColumn";
+	public static final String LOCAL_PUBCHEM_DATABASE_INCHIKEY_COLUMN_NAME 		= "LocalPubChemDatabaseInChIKeyColumn";
+	public static final String LOCAL_PUBCHEM_DATABASE_XLOGP3_COLUMN_NAME        = "LocalPubChemDatabaseXLogP3Column";
 
 	public static final String LOCAL_KEGG_DATABASE_NAME					= 	"LocalKeggDatabase";
 	public static final String LOCAL_KEGG_DATABASE_COMPOUND_TABLE_NAME	= 	"LocalKeggDatabaseCompoundsTable";
