@@ -1,14 +1,22 @@
 PrecursorCompoundIDs = 1,3,5
-MetFragDatabaseType = SQLitePubChem
+
 SampleName = example_1
 NeutralPrecursorMass = 10
-LocalDatabaseCompoundsTable = info
-LocalDatabaseMassColumn = monoisotopic_mass
-LocalDatabaseFormulaColumn = molecular_formula
-LocalDatabaseInChIColumn = iupac_inchi
-LocalDatabaseInChIKey1Column = iupac_inchi
-LocalDatabaseInChIKey2Column = iupac_inchi
-LocalDatabaseCidColumn = cid
-LocalDatabaseSmilesColumn = smiles
-LocalDatabaseInChIKeyColumn = iupac_inchikey
-LocalDatabaseXLogP3Column = xlogp3
+
+# Which database type to use:
+MetFragDatabaseType = SQLitePubChem
+
+# Specify the DB file and the table containing the candidate
+# information
+LocalPubChemDatabaseName = pubchem.db
+LocalPubChemDatabaseCompoundsTable = info
+
+# Column names for each candidate information
+LocalPubChemDatabaseMassColumn = monoisotopic_mass
+LocalPubChemDatabaseFormulaColumn = molecular_formula
+LocalPubChemDatabaseInChIColumn = iupac_inchi
+LocalPubChemDatabaseCidColumn = cid
+LocalPubChemDatabaseSmilesColumn = smiles
+LocalPubChemDatabaseInChIKeyColumn = iupac_inchikey
+LocalPubChemDatabaseXLogP3Column = xlogp3
+LocalPubChemDatabaseCompoundNameColumn = iupac_name

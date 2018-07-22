@@ -104,8 +104,6 @@ public class VariableNames {
 	public static final String LOCAL_DATABASE_COMPOUND_NAME_COLUMN_NAME	= "LocalDatabaseCompoundNameColumn";
     public static final String LOCAL_DATABASE_INCHIKEY_COLUMN_NAME 		= "LocalDatabaseInChIKeyColumn";
     public static final String LOCAL_DATABASE_XLOGP3_COLUMN_NAME        = "LocalDatabaseXLogP3Column";
-    public static final String LOCAL_DATABASE_IUPAC_NAME_COLUMN_NAME    = "LocalDatabaseIUPACNameColumn";
-
 
     public static final String LOCAL_PUBCHEM_DATABASE_NAME					    = "LocalPubChemDatabase";
 	public static final String LOCAL_PUBCHEM_DATABASE_COMPOUND_TABLE_NAME		= "LocalPubChemDatabaseCompoundsTable";
@@ -123,7 +121,6 @@ public class VariableNames {
 	public static final String LOCAL_PUBCHEM_DATABASE_COMPOUND_NAME_COLUMN_NAME	= "LocalPubChemDatabaseCompoundNameColumn";
 	public static final String LOCAL_PUBCHEM_DATABASE_INCHIKEY_COLUMN_NAME 		= "LocalPubChemDatabaseInChIKeyColumn";
 	public static final String LOCAL_PUBCHEM_DATABASE_XLOGP3_COLUMN_NAME        = "LocalPubChemDatabaseXLogP3Column";
-    public static final String LOCAL_PUBCHEM_DATABASE_IUPAC_NAME_COLUMN_NAME    = "LocalPubchemDatabaseIUPACNameColumn";
 
 	public static final String LOCAL_KEGG_DATABASE_NAME					= 	"LocalKeggDatabase";
 	public static final String LOCAL_KEGG_DATABASE_COMPOUND_TABLE_NAME	= 	"LocalKeggDatabaseCompoundsTable";

@@ -6,20 +6,19 @@ import de.ipbhalle.metfraglib.process.CombinedMetFragProcess;
 import de.ipbhalle.metfraglib.settings.MetFragGlobalSettings;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 
-public class SQLite_Test {
+public class LocalPubChemSQLite_Test {
     private Logger logger;
     private String finalParameterFilePath;
 
     @Before
     public void setUp() {
-        this.logger = Logger.getLogger(SQLite_Test.class);
+        this.logger = Logger.getLogger(LocalPubChemSQLite_Test.class);
         java.io.File parameterFilePath = new java.io.File(ClassLoader.getSystemResource("local_sqlite_example_pubchemcid.txt").getFile());
         String peakListFilePath = ClassLoader.getSystemResource("peaklist_file_example_1.txt").getFile();
         String pubchemDBFilePath = ClassLoader.getSystemResource("pubchem.db").getFile();

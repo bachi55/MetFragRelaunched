@@ -34,14 +34,22 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 	public LocalSQLitePubChemDatabase(Settings settings) {
 		super(settings);
 
-		// Introduce new fileds
-        this.INCHIKEY_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_DATABASE_INCHIKEY_COLUMN_NAME);
-        this.XLOGP3_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_DATABASE_XLOGP3_COLUMN_NAME);
-        this.IUPAC_NAME_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_DATABASE_IUPAC_NAME_COLUMN_NAME);
+        // We use the pubchem related variables here
+        this.DATABASE_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_NAME);
+        this.TABLE_NAME	= (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_COMPOUND_TABLE_NAME);
+        this.MASS_COLUMN_NAME =	(String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_MASS_COLUMN_NAME);
+        this.FORMULA_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_FORMULA_COLUMN_NAME);
+        this.INCHI_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_INCHI_COLUMN_NAME);
+        this.CID_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_CID_COLUMN_NAME);
+        this.SMILES_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_SMILES_COLUMN_NAME);
+        this.COMPOUND_NAME_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_DATABASE_COMPOUND_NAME_COLUMN_NAME);
 
-        // TODO: Use here the LOCAL_PUBCHEM_DATABASE_* variables!
+		// Introduce new fields
+        this.INCHIKEY_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_INCHIKEY_COLUMN_NAME);
+        this.XLOGP3_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_XLOGP3_COLUMN_NAME);
+        this.IUPAC_NAME_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_PUBCHEM_DATABASE_COMPOUND_NAME_COLUMN_NAME);
 
-        // Prefix of the query used to get canidate properties from the table
+        // Prefix of the query used to get candidate properties from the table
         // Usage: prefix + CONDITION, e.g. prefix + where cid = 100;
         this.base_candidate_property_query = "SELECT "
                 + INCHI_COLUMN_NAME + ","
@@ -201,14 +209,16 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 	}
 	
 	/**
-	 * 
-	 * @param query
-	 * @return
+	 * Submit database query and retrieve results.
+     *
+	 * @param query, used to retrieve candidate information from the database
+	 * @return ResultsSet
 	 */
 	private ResultSet submitQuery(String query) {
 		ResultSet rs = null; 
 		try {
-			this.databaseConnection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_NAME, this.db_user, this.db_password);
+			this.databaseConnection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_NAME,
+                    this.db_user, this.db_password);
 			this.statement = this.databaseConnection.createStatement();
 			rs = this.statement.executeQuery(query);
 		    SQLWarning warning = rs.getWarnings();
