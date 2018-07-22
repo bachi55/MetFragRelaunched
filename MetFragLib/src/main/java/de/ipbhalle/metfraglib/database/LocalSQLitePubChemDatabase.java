@@ -27,24 +27,29 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 
     protected String INCHIKEY_COLUMN_NAME;
     protected String XLOGP3_COLUMN_NAME;
+    protected String IUPAC_NAME_COLUMN_NAME;
 
     private String base_candidate_property_query;
 
 	public LocalSQLitePubChemDatabase(Settings settings) {
 		super(settings);
 
+		// Introduce new fileds
         this.INCHIKEY_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_DATABASE_INCHIKEY_COLUMN_NAME);
         this.XLOGP3_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_DATABASE_XLOGP3_COLUMN_NAME);
+        this.IUPAC_NAME_COLUMN_NAME = (String) settings.get(VariableNames.LOCAL_DATABASE_IUPAC_NAME_COLUMN_NAME);
+
+        // TODO: Use here the LOCAL_PUBCHEM_DATABASE_* variables!
 
         // Prefix of the query used to get canidate properties from the table
         // Usage: prefix + CONDITION, e.g. prefix + where cid = 100;
         this.base_candidate_property_query = "SELECT "
                 + INCHI_COLUMN_NAME + ","
-                + INCHIKEY1_COLUMN_NAME + ","
-                + INCHIKEY2_COLUMN_NAME + ","
                 + FORMULA_COLUMN_NAME + ","
                 + MASS_COLUMN_NAME  + ","
                 + INCHIKEY_COLUMN_NAME + ","
+                + SMILES_COLUMN_NAME + ","
+                + IUPAC_NAME_COLUMN_NAME + ","
                 + XLOGP3_COLUMN_NAME  + " from " + TABLE_NAME;
     }
 
@@ -113,23 +118,23 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 		ResultSet rs = this.submitQuery(query);
 		if(rs == null) return null;
 
-		Vector<String> inChIKeys1 = new Vector<String>();
-		Vector<String> inChIKeys2 = new Vector<String>();
 		Vector<String> formulas = new Vector<String>();
 		Vector<String> inchis = new Vector<String>();
 		Vector<String> masses = new Vector<String>();
 		Vector<String> inchikeys = new Vector<String>();
 		Vector<String> xlogp3s = new Vector<String>();
+		Vector<String> smiles = new Vector<String>();
+        Vector<String> iupac_names = new Vector<String>();
 		
 		try {
 			while(rs.next()) {
 				inchis.add(rs.getString(INCHI_COLUMN_NAME));
-				inChIKeys1.add(rs.getString(INCHIKEY1_COLUMN_NAME));
-				inChIKeys2.add(rs.getString(INCHIKEY2_COLUMN_NAME));
 				masses.add(rs.getString(MASS_COLUMN_NAME));
 				formulas.add(rs.getString(FORMULA_COLUMN_NAME));
 				inchikeys.add(rs.getString(INCHIKEY_COLUMN_NAME));
 				xlogp3s.add(rs.getString(XLOGP3_COLUMN_NAME));
+				smiles.add(rs.getString(SMILES_COLUMN_NAME));
+                iupac_names.add(rs.getString(IUPAC_NAME_COLUMN_NAME));
 			}
 			rs.close();
 			this.statement.close();
@@ -139,12 +144,17 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 
 		ICandidate candidate = new TopDownPrecursorCandidate(inchis.get(0), identifier);
 
-		candidate.setProperty(VariableNames.INCHI_KEY_1_NAME, inChIKeys1.get(0));
-		candidate.setProperty(VariableNames.INCHI_KEY_2_NAME, inChIKeys2.get(0));
+        // Get inchikey parts from the inchi string. We do not need to store in the database
+        String[] inchikey_parts = inchis.get(0).split("-");
+        candidate.setProperty(VariableNames.INCHI_KEY_1_NAME, inchikey_parts[0]);
+        candidate.setProperty(VariableNames.INCHI_KEY_2_NAME, inchikey_parts[1]);
+
 		candidate.setProperty(VariableNames.MOLECULAR_FORMULA_NAME, formulas.get(0));
 		candidate.setProperty(VariableNames.MONOISOTOPIC_MASS_NAME, masses.get(0));
 		candidate.setProperty(VariableNames.INCHI_KEY_NAME, inchikeys.get(0));
 		candidate.setProperty(VariableNames.PUBCHEM_XLOGP_NAME, xlogp3s.get(0));
+        candidate.setProperty(VariableNames.SMILES_NAME, smiles.get(0));
+        candidate.setProperty(VariableNames.IUPAC_NAME_NAME, iupac_names.get(0));
 		
 		return candidate;
 	}
@@ -167,13 +177,18 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 			while(rs.next()) {
 				String inchi = rs.getString(INCHI_COLUMN_NAME);
 				ICandidate candidate = new TopDownPrecursorCandidate(inchi, rs.getString(CID_COLUMN_NAME));
-				
-				candidate.setProperty(VariableNames.INCHI_KEY_1_NAME, rs.getString(INCHIKEY1_COLUMN_NAME));
-				candidate.setProperty(VariableNames.INCHI_KEY_2_NAME, rs.getString(INCHIKEY2_COLUMN_NAME));
+
+				// Get inchikey parts from the inchi string. We do not need to store in the database
+                String[] inchikey_parts = inchi.split("-");
+				candidate.setProperty(VariableNames.INCHI_KEY_1_NAME, inchikey_parts[0]);
+				candidate.setProperty(VariableNames.INCHI_KEY_2_NAME, inchikey_parts[1]);
+
 				candidate.setProperty(VariableNames.MOLECULAR_FORMULA_NAME, rs.getString(FORMULA_COLUMN_NAME));
 				candidate.setProperty(VariableNames.MONOISOTOPIC_MASS_NAME, rs.getString(MASS_COLUMN_NAME));
 				candidate.setProperty(VariableNames.INCHI_KEY_NAME, rs.getString(INCHIKEY_COLUMN_NAME));
 				candidate.setProperty(VariableNames.PUBCHEM_XLOGP_NAME, rs.getString(XLOGP3_COLUMN_NAME));
+				candidate.setProperty(VariableNames.SMILES_NAME, rs.getString(SMILES_COLUMN_NAME));
+				candidate.setProperty(VariableNames.IUPAC_NAME_NAME, rs.getString(IUPAC_NAME_COLUMN_NAME));
 				
 				candidates.addElement(candidate);
 			}
