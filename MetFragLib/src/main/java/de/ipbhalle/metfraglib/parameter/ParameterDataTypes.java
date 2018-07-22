@@ -91,6 +91,8 @@ public class ParameterDataTypes {
 		parameterDatatypes.put(	VariableNames.LOCAL_DATABASE_SMILES_COLUMN_NAME, 						"String"	);
 		parameterDatatypes.put(	VariableNames.LOCAL_DATABASE_USER_NAME, 								"String"	);
 		parameterDatatypes.put(	VariableNames.LOCAL_DATABASE_PASSWORD_NAME, 							"String"	);
+        parameterDatatypes.put(	VariableNames.LOCAL_DATABASE_INCHIKEY_COLUMN_NAME,			            "String"	);
+        parameterDatatypes.put(	VariableNames.LOCAL_DATABASE_XLOGP3_COLUMN_NAME,			            "String"	);
 
 		parameterDatatypes.put(	VariableNames.LOCAL_PUBCHEM_DATABASE_NAME, 								"String"	);
 		parameterDatatypes.put(	VariableNames.LOCAL_PUBCHEM_DATABASE_COMPOUND_TABLE_NAME, 				"String"	);
@@ -106,6 +108,8 @@ public class ParameterDataTypes {
 		parameterDatatypes.put(	VariableNames.LOCAL_PUBCHEM_DATABASE_USER_NAME, 						"String"	);
 		parameterDatatypes.put(	VariableNames.LOCAL_PUBCHEM_DATABASE_PASSWORD_NAME, 					"String"	);
 		parameterDatatypes.put(	VariableNames.LOCAL_PUBCHEM_DATABASE_COMPOUND_NAME_COLUMN_NAME,			"String"	);
+        parameterDatatypes.put(	VariableNames.LOCAL_PUBCHEM_DATABASE_INCHIKEY_COLUMN_NAME,			    "String"	);
+        parameterDatatypes.put(	VariableNames.LOCAL_PUBCHEM_DATABASE_XLOGP3_COLUMN_NAME,			    "String"	);
 
 		parameterDatatypes.put(	VariableNames.LOCAL_KEGG_DATABASE_NAME, 								"String"	);
 		parameterDatatypes.put(	VariableNames.LOCAL_KEGG_DATABASE_COMPOUND_TABLE_NAME, 					"String"	);

@@ -1,4 +1,4 @@
-PrecursorCompoundIDs = 1,3,5
+PrecursorCompoundIDs = 1,3,9,245
 
 SampleName = example_1
 NeutralPrecursorMass = 10
@@ -8,7 +8,8 @@ MetFragDatabaseType = SQLitePubChem
 
 # Specify the DB file and the table containing the candidate
 # information
-LocalPubChemDatabaseName = pubchem.db
+#LocalDatabasePath = MetFragLib/src/test/resources
+#LocalPubChemDatabase = pubchem.db
 LocalPubChemDatabaseCompoundsTable = info
 
 # Column names for each candidate information
