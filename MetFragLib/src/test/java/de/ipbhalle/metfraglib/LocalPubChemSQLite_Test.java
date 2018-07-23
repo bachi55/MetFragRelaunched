@@ -20,6 +20,7 @@ public class LocalPubChemSQLite_Test {
     private String paramFilePath_by_identifier;
     private String paramFilePath_by_monomass;
     private String paramFilePath_by_identifier_cid233;
+    private String paramFilePath_large_query;
 
     private String get_absolute_path_of_temporary_parameter_file(java.io.File paramFile, String tempDir) {
         java.io.File tempFile = null;
@@ -111,12 +112,15 @@ public class LocalPubChemSQLite_Test {
         java.io.File paramFile_by_identifier = new java.io.File(ClassLoader.getSystemResource("local_sqlite_example_pubchemcid.txt").getFile());
         java.io.File paramFile_by_monomass = new java.io.File(ClassLoader.getSystemResource("local_sqlite_example_monoisotopicmass.txt").getFile());
         java.io.File paramFile_by_identifier_cid233 = new java.io.File(ClassLoader.getSystemResource("local_sqlite_example_cid233.txt").getFile());
+        java.io.File paramFile_by_identifier_large_query = new java.io.File(ClassLoader.getSystemResource("local_sqlite_example_large_query.txt").getFile());
+
 
         String tempDir = System.getProperty("java.io.tmpdir");
 
         this.paramFilePath_by_identifier = get_absolute_path_of_temporary_parameter_file(paramFile_by_identifier, tempDir);
         this.paramFilePath_by_monomass = get_absolute_path_of_temporary_parameter_file(paramFile_by_monomass, tempDir);
         this.paramFilePath_by_identifier_cid233 = get_absolute_path_of_temporary_parameter_file(paramFile_by_identifier_cid233, tempDir);
+        this.paramFilePath_large_query = get_absolute_path_of_temporary_parameter_file(paramFile_by_identifier_large_query, tempDir);
     }
 
     @Test
@@ -175,6 +179,18 @@ public class LocalPubChemSQLite_Test {
             assertEquals(cids[i], candidateList.getElement(i).getIdentifier());
         }
     }
+
+    @Test
+    public void test_very_large_query() {
+        // load the settings
+        MetFragGlobalSettings settings = load_settings(this.paramFilePath_large_query);
+        assertNotNull(settings);
+
+        //fetch the candidate list
+        CandidateList candidateList = get_candidate_list_for_setting(settings);
+        assertEquals(3100, candidateList.getNumberElements());
+    }
+
 
     @Test
     public void test_query_by_identifier() {

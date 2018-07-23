@@ -135,12 +135,12 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 	public CandidateList getCandidateByIdentifier(Vector<String> identifiers) {
 		if(identifiers.size() == 0) return new CandidateList();
 
-		String query = base_candidate_property_query + " where " + CID_COLUMN_NAME + " =\"" + identifiers.get(0) + "\"";
-		for(String cid : identifiers)
-			query += " or " + CID_COLUMN_NAME + " = \"" + cid + "\"";
-		query += ";";
-
-		logger.trace(query);
+        String query = base_candidate_property_query + " where " + CID_COLUMN_NAME + " in (\"" + identifiers.get(0) + "\"";
+        for(int i = 1; i < identifiers.size(); i++)
+            query += ",\"" + identifiers.get(i) + "\"";
+        query += ");";
+        
+        logger.trace(query);
 
 		ResultSet rs = this.submitQuery(query);
 		if(rs == null) return new CandidateList();
