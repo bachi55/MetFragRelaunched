@@ -1,0 +1,23 @@
+DatabaseSearchRelativeMassDeviation = 5
+NeutralPrecursorMass = 260.03
+
+SampleName = example_1
+
+# Which database type to use:
+MetFragDatabaseType = SQLitePubChem
+
+# Specify the DB file and the table containing the candidate
+# information
+#LocalDatabasePath = MetFragLib/src/test/resources
+#LocalPubChemDatabase = pubchem.db
+LocalPubChemDatabaseCompoundsTable = info
+
+# Column names for each candidate information
+LocalPubChemDatabaseMassColumn = monoisotopic_mass
+LocalPubChemDatabaseFormulaColumn = molecular_formula
+LocalPubChemDatabaseInChIColumn = iupac_inchi
+LocalPubChemDatabaseCidColumn = cid
+LocalPubChemDatabaseSmilesColumn = smiles
+LocalPubChemDatabaseInChIKeyColumn = iupac_inchikey
+LocalPubChemDatabaseXLogP3Column = xlogp3
+LocalPubChemDatabaseCompoundNameColumn = iupac_name
