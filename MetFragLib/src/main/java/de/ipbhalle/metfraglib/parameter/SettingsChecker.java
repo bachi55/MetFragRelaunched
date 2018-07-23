@@ -33,7 +33,19 @@ public class SettingsChecker {
 		
 		return true;
 	}
-	
+
+	public boolean check(Settings settings, boolean checkPealList, boolean checkDatabase, boolean checkFragmenter,
+						 boolean checkFilter, boolean checkScoring, boolean checkOutput) {
+		if(checkPealList && !checkPeakListFileSettings(settings)) return false;
+		if(checkDatabase && !checkDatabaseSettings(settings)) return false;
+		if(checkFragmenter && !checkFragmenterSettings(settings)) return false;
+		if(checkFilter && !candidateFilterSettings(settings)) return false;
+		if(checkScoring && !scoringTypesSettings(settings)) return false;
+		if(checkOutput && !checkOutputSettings(settings)) return false;
+
+		return true;
+	}
+
 	/**
 	 * 
 	 * @param settings

@@ -1,0 +1,9 @@
+PrecursorCompoundIDs = 9,49533,49560,49558,49719,3
+
+# Which database type to use:
+MetFragDatabaseType = PubChem
+
+NeutralPrecursorMass = 20
+
+# If we want to _no_ filter, we need to do it like this:
+MetFragPreProcessingCandidateFilter = UnconnectedCompoundFilter, IsotopeFilter

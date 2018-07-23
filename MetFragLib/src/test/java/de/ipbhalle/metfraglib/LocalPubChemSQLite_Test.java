@@ -9,7 +9,6 @@ import de.ipbhalle.metfraglib.settings.MetFragGlobalSettings;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import de.ipbhalle.metfraglib.settings.Settings;
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.log4j.Logger;

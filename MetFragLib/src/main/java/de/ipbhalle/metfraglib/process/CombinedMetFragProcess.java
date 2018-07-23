@@ -261,6 +261,17 @@ public class CombinedMetFragProcess implements Runnable {
 		return this.sortedScoredCandidateList;
 	}
 
+	public boolean applyPreProcessingFilterToCandidate(ICandidate candidate) {
+	    boolean passedFilter;
+	    try {
+	        passedFilter = this.preProcessingCandidateFilterCollection.passesFilter(candidate);
+	    } catch (java.lang.Exception e) {
+	        e.printStackTrace();
+	        passedFilter = false;
+        }
+        return passedFilter;
+    }
+
 	/**
 	 * init database, peaklist reader, bond energies 
 	 */

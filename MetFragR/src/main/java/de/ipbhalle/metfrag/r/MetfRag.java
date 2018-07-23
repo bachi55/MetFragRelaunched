@@ -24,14 +24,8 @@ import de.ipbhalle.metfraglib.process.CombinedMetFragProcess;
 import de.ipbhalle.metfraglib.settings.MetFragGlobalSettings;
 
 class MetfRag {
-	
-	public static CandidateList runMetFrag(MetFragGlobalSettings settings) {
-		SettingsChecker checker = new SettingsChecker();
-		if(!checker.check(settings, false)) {
-			CandidateList candidateList = new CandidateList();
-			return candidateList;
-		}
 
+	private static void SetUpLoggers() {
 		Logger.getLogger("net.sf.jnati.deploy.artefact.ConfigManager").setLevel(Level.ERROR);
 		Logger.getLogger("net.sf.jnati.deploy.repository.ClasspathRepository").setLevel(Level.ERROR);
 		Logger.getLogger("net.sf.jnati.deploy.repository.LocalRepository").setLevel(Level.ERROR);
@@ -44,7 +38,7 @@ class MetfRag {
 		//ChemSpider
 		Logger.getLogger("httpclient.wire.content").setLevel(Level.ERROR);
 		Logger.getLogger("httpclient.wire.header").setLevel(Level.ERROR);
-		
+
 		Logger.getLogger("org.apache.commons.httpclient.HeaderElement").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.commons.httpclient.HttpConnection").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.commons.httpclient.HttpMethodBase").setLevel(Level.ERROR);
@@ -66,7 +60,7 @@ class MetfRag {
 		Logger.getLogger("org.apache.commons.httpclient.methods.PostMethod").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.commons.httpclient.HttpParser").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.commons.httpclient.methods.EntityEnclosingMethod").setLevel(Level.ERROR);
-		
+
 		Logger.getLogger("org.apache.axis2.description.AxisOperation").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.om.impl.llom.OMElementImpl").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axis2.engine.Phase").setLevel(Level.ERROR);
@@ -97,13 +91,13 @@ class MetfRag {
 		Logger.getLogger("org.apache.axis2.util.Loader").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axis2.deployment.RepositoryListener").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axis2.context.AbstractContext").setLevel(Level.ERROR);
-		
+
 		Logger.getLogger("org.apache.axiom.om.impl.builder.StAXOMBuilder").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.locator.DefaultOMMetaFactoryLocator").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.om.util.StAXUtils").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.soap.impl.builder.StAXSOAPModelBuilder").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.om.impl.MTOMXMLStreamWriter").setLevel(Level.ERROR);
-		Logger.getLogger("org.apache.axiom.om.OMOutputFormat").setLevel(Level.ERROR);		
+		Logger.getLogger("org.apache.axiom.om.OMOutputFormat").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.soap.impl.llom.SOAPEnvelopeImpl").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.om.impl.llom.OMContainerHelper").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.locator.ImplementationFactory").setLevel(Level.ERROR);
@@ -112,13 +106,62 @@ class MetfRag {
 		Logger.getLogger("org.apache.axiom.locator.ImplementationFactory").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.om.impl.common.AxiomContainerSupport").setLevel(Level.ERROR);
 		Logger.getLogger("org.apache.axiom.om.impl.common.serializer.pull.PullSerializer").setLevel(Level.ERROR);
-		Logger.getLogger("org.apache.axiom.om.impl.common.serializer.pull.Navigator").setLevel(Level.ERROR);	
-		Logger.getLogger("org.apache.axiom.om.impl.builder.StAXBuilder").setLevel(Level.ERROR);	
-		
+		Logger.getLogger("org.apache.axiom.om.impl.common.serializer.pull.Navigator").setLevel(Level.ERROR);
+		Logger.getLogger("org.apache.axiom.om.impl.builder.StAXBuilder").setLevel(Level.ERROR);
+	}
+
+	public static CandidateList runCandidateRetrieval(MetFragGlobalSettings settings) {
+		SettingsChecker checker = new SettingsChecker();
+		if(!checker.check(settings,
+				false,
+				true,
+				false,
+				true,
+				false,
+				false)) {
+			CandidateList candidateList = new CandidateList();
+			return candidateList;
+		}
+
+		MetfRag.SetUpLoggers();
+
 		settings.set(VariableNames.LOG_LEVEL_NAME, Level.INFO);
-		
+
 		CombinedMetFragProcess mp = new CombinedMetFragProcess(settings);
-		
+
+		try {
+			boolean candidatesRetrieved = mp.retrieveCompounds();
+			if(!candidatesRetrieved) return new CandidateList();
+		} catch (Exception e2) {
+			System.err.println("Error retrieving candidates");
+			e2.printStackTrace();
+			return new CandidateList();
+		}
+
+		// apply the pre-processing filters
+		CandidateList candidates = mp.getCandidateList();
+        for (int i = (candidates.getNumberElements() - 1); i >= 0; i--) {
+            if (! mp.applyPreProcessingFilterToCandidate(candidates.getElement(i))) {
+                candidates.removeElement(i);
+            }
+        }
+
+		return candidates;
+	}
+
+	public static CandidateList runMetFrag(MetFragGlobalSettings settings) {
+		SettingsChecker checker = new SettingsChecker();
+		if(!checker.check(settings, false)) {
+			CandidateList candidateList = new CandidateList();
+			return candidateList;
+		}
+
+		MetfRag.SetUpLoggers();
+
+		settings.set(VariableNames.LOG_LEVEL_NAME, Level.INFO);
+
+		CombinedMetFragProcess mp = new CombinedMetFragProcess(settings);
+
 		try {
 			boolean candidatesRetrieved = mp.retrieveCompounds();
 			if(!candidatesRetrieved) return new CandidateList();
@@ -292,15 +335,13 @@ class MetfRag {
 	
 	/**
 	 * fragment and score molecules stored in a sdf file
-	 * 
-	 * @param _pathToSDF
+	 *
 	 * @param _masses
 	 * @param _intensities
 	 * @param _exactMass
 	 * @param _numberThreads
 	 * @param _mzabs
 	 * @param _mzppm
-	 * @param _searchppm
 	 * @param _posCharge
 	 * @param _mode
 	 * @param _treeDepth
