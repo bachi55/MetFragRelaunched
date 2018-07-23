@@ -125,6 +125,14 @@ public class LocalPubChemSQLite_Test {
         // pubchem compound with cid = 233 has no xlogp3 ==> return null when querying it.
         MetFragGlobalSettings settings = load_settings(this.paramFilePath_by_identifier_cid233);
         assertNotNull(settings);
+
+        //fetch the candidate list
+        CandidateList candidateList = get_candidate_list_for_setting(settings);
+        assertEquals(candidateList.getNumberElements(), 1);
+
+        assertEquals(candidateList.getElement(0).getInChI(), "InChI=1S/AsH3O4/c2-1(3,4)5/h(H3,2,3,4,5)/p-2");
+        assertEquals(candidateList.getElement(0).getIdentifier(), "233");
+        assertEquals(candidateList.getElement(0).getProperty(VariableNames.PUBCHEM_XLOGP_NAME), "NULL");
     }
 
     @Test
