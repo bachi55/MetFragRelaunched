@@ -13,6 +13,194 @@ require(rJava, quietly=TRUE)
 
 #' Retrieve candidatesas according to the specifications in the settings.
 #' 
+#' This function uses the static method "runCandidateRetrieval" in the MetfRag.java
+#' file!
+#' 
+#' @param list of parameter settings
+#' @author Eric Bach (\email{eric.bach@aalto.fi})
+#' @export
+run.candidateRetrieval_2<-function(settingsObject) {
+    if(missing(settingsObject)) stop("Error: Settings object is missing!")
+    
+    if(class(settingsObject) != "list") stop("Error: Settings object must be of type list!")
+    if(is.null(names(settingsObject))) stop("Error: Settings object does not contain valid names!")
+    if(length(settingsObject) == 0) stop("Error: Settings object does not contain valid values!")
+    
+    getDatatype<-function(name, value) {
+        vector = FALSE;
+        if(class(value) != "character" & length(value) > 1) {vector = TRUE}
+        if(name == "NeutralPrecursorMass") {return("double")}
+        else if(name == "KeggProxyPort") {return("integer")}
+        else if(name == "MoNAProxyPort") {return("integer")}
+        else if(name == "MetaCycProxyPort") {return("integer")}
+        else if(name == "PubChemProxyPort") {return("integer")}
+        else if(name == "NeutralPrecursorMass") {return("double")}
+        else if(name == "DatabaseSearchRelativeMassDeviation") {return("double")}
+        else if(name == "FragmentPeakMatchAbsoluteMassDeviation") {return("double")}
+        else if(name == "FragmentPeakMatchRelativeMassDeviation") {return("double")}
+        else if(name == "MaximumTreeDepth") {return("integer")}
+        else if(name == "PrecursorIonMode") {return("integer")}
+        else if(name == "IonizedPrecursorMass") {return("double")}
+        else if(name == "NumberThreads") {return("byte")}
+        else if(name == "ExperimentalRetentionTimeValue") {return("double")}
+        else if(name == "MinimumAbsolutePeakIntensity") {return("double")}
+        else if(name == "SmartsSubstructureExclusionScoreSmartsList") {return("array")}
+        else if(name == "SmartsSubstructureInclusionScoreSmartsList") {return("array")}
+        else if(name == "ScoreSmartsInclusionList") {return("array")}
+        else if(name == "ScoreSmartsExclusionList") {return("array")}
+        else if(name == "FilterSmartsInclusionList") {return("array")}
+        else if(name == "FilterSmartsExclusionList") {return("array")}
+        else if(name == "FilterSuspectLists") {return("array")}
+        else if(name == "ScoreSuspectLists") {return("array")}
+        else if(name == "FilterExcludedElements") {return("array")}
+        else if(name == "FilterIncludedElements") {return("array")}
+        else if(name == "CombinedReferenceScoreValues") {return("array")}
+        else if(name == "MetFragScoreWeights") {return("array_double")}
+        else if(name == "MetFragPreProcessingCandidateFilter") {return("array")}
+        else if(name == "MetFragPostProcessingCandidateFilter") {return("array")}
+        else if(name == "PrecursorCompoundIDs") {return("array")}
+        else if(name == "MetFragScoreTypes") {return("array_double")}
+        else if(name == "MetFragCandidateWriter") {return("array")}
+        else if(vector) {
+            if(class(value) == "numeric" && value == round(value)) {return("array")}
+            else if(class(value) == "numeric" && value != round(value)) {return("array_double")}
+            else if(class(value) == "character") {return("array")}
+            else if(class(value) == "logical") {return("array")}
+            else {return("unknown")}
+        }
+        else if(!vector) {
+            if(class(value) == "numeric" && value == round(value)) {return("integer")}
+            else if(class(value) == "numeric" && value != round(value)) {return("double")}
+            else if(class(value) == "character") {return("string")}
+            else if(class(value) == "logical") {return("boolean")}
+            else {return("unknown")}
+        }
+        
+    }
+    
+    #write all properties into Java settings object
+    javaSettings=.jnew("de/ipbhalle/metfraglib/settings/MetFragGlobalSettings")
+    .jcall(javaSettings, "V", 'set', "PeakListString", "NA NA") # add empty spectra
+    .jcall(javaSettings, "V", 'set', "MetFragPeakListReader", 
+           .jnew("java.lang.String", 
+                 as.character("de.ipbhalle.metfraglib.peaklistreader.FilteredStringTandemMassPeakListReader")))
+    
+    sapply(names(settingsObject), function(name) {
+        #in case it a single value
+        if(getDatatype(name, settingsObject[[name]]) == "integer") {
+            .jcall(javaSettings, "V", 'set', name, 
+                   .jnew("java.lang.Integer", as.integer(settingsObject[[name]])))
+        }
+        else if(getDatatype(name, settingsObject[[name]]) == "double") {
+            .jcall(javaSettings, "V", 'set', name, 
+                   .jnew("java.lang.Double", as.double(settingsObject[[name]])))
+        }
+        else if(getDatatype(name, settingsObject[[name]]) == "string") {
+            .jcall(javaSettings, "V", 'set', name, 
+                   .jnew("java.lang.String", as.character(settingsObject[[name]])))
+        }
+        else if(getDatatype(name, settingsObject[[name]]) == "boolean") {
+            .jcall(javaSettings, "V", 'set', name, 
+                   .jnew("java.lang.Boolean", as.logical(settingsObject[[name]])))
+        }
+        else if(getDatatype(name, settingsObject[[name]]) == "byte") {
+            .jcall(javaSettings, "V", 'set', name, 
+                   .jnew("java.lang.Byte", .jbyte(settingsObject[[name]])))
+        }
+        #vectors
+        else if(getDatatype(name, settingsObject[[name]]) == "array") {
+            .jcall(javaSettings, "V", 'set', name, 
+                   .jarray(settingsObject[[name]]))
+        }
+        else if(getDatatype(name, settingsObject[[name]]) == "array_double") {
+            .jcall(javaSettings, "V", 'set', name, 
+                   .jarray(settingsObject[[name]], "[java.lang.Double"))
+        }
+        else {
+            print(paste("Unknown type of parameter", name, "(", class(settingsObject[[name]]), ")"))
+        }
+    })
+    
+    # Get directory for temporary files
+    temp_dir=tempdir()
+    J("java.lang.System")$setProperty( "java.io.tmpdir", temp_dir )
+    
+    # Implement code from "de/ipbhalle/metfrag/r/MetfRag/runMetFrag" directly 
+    # here.
+    checker <- .jnew("de.ipbhalle.metfraglib.parameter.SettingsChecker")
+    if(!.jcall(checker, "Z", "check",
+               .jcast(javaSettings, "de.ipbhalle.metfraglib.settings.Settings"), FALSE)) {
+        return(data.frame())
+    }
+    
+    obj=.jnew("de/ipbhalle/metfrag/r/MetfRag")
+    candidateList=.jcall(obj, "Lde/ipbhalle/metfraglib/list/CandidateList;", "runCandidateRetrieval", javaSettings)
+    candidateList=.jcast(candidateList, "de/ipbhalle/metfraglib/list/ScoredCandidateList")
+    
+    #remove axis temp dirs in case they were generated
+    axis_files <- dir(temp_dir, full.names = TRUE)[grep("^axis2", dir(temp_dir))]
+    axis_dirs <- axis_files[which(file.info(axis_files)[, "isdir"])]
+    files_to_remove <- unlist(lapply(1:length(axis_dirs),
+                                     function(x) dir(axis_dirs[x], full.names=TRUE)))
+    files_to_remove <- files_to_remove[grep("jar$", files_to_remove)]
+    unlink (files_to_remove)
+    
+    numberCandidates <- .jcall(candidateList, "I", "getNumberElements")
+    
+    if (numberCandidates == 0) {
+        return(data.frame())
+    }
+    
+    propertyNames<-c()
+    datatypes<-list()
+    
+    if(numberCandidates >= 1) {
+        candidate <- .jcall(candidateList, 
+                            "Lde/ipbhalle/metfraglib/interfaces/ICandidate;",
+                            "getElement", as.integer(0))
+        propertyNames <- .jcall(candidate, "[S", "getPropertyNames")
+        sapply(1:length(propertyNames), function(propertyIndex) {
+            datatypes[[propertyNames[propertyIndex]]] <<- .jcall(
+                candidate, "Ljava/lang/Object;",
+                "getProperty", propertyNames[propertyIndex])$getClass()$getName()
+        })
+    }
+    
+    candidateProperties <- list()
+    sapply(1:length(propertyNames), function(propertyIndex) {
+        candidateProperties[[propertyNames[propertyIndex]]] <<- vector(mode = "character", length = 0)
+    })
+    sapply(1:numberCandidates, function(candidateIndex) {
+        candidate <- .jcall(
+            candidateList, "Lde/ipbhalle/metfraglib/interfaces/ICandidate;", 
+            "getElement", as.integer(candidateIndex - 1))
+        
+        sapply(1:length(propertyNames), function(propertyIndex) {
+            value <- .jcall(
+                candidate, "Ljava/lang/Object;",
+                "getProperty", propertyNames[propertyIndex])$toString()
+            candidateProperties[[propertyNames[propertyIndex]]] <<- c(
+                candidateProperties[[propertyNames[propertyIndex]]], value)
+        })
+    })
+    
+    sapply(1:length(propertyNames), function(propertyIndex) {
+        datatype <- datatypes[[propertyNames[propertyIndex]]]
+        if(datatype == "java.lang.Double" ||
+           datatype == "java.lang.Byte" || 
+           datatype == "java.lang.Integer" || 
+           datatype == "java.lang.Float") {
+            suppressWarnings(
+                candidateProperties[[propertyNames[propertyIndex]]] <<- as.numeric(
+                    candidateProperties[[propertyNames[propertyIndex]]]))
+        }
+    })
+    
+    return(as.data.frame(candidateProperties, stringsAsFactors = FALSE))
+}
+
+#' Retrieve candidatesas according to the specifications in the settings.
+#' 
 #' The function uses defined settings for the database and retrieval to download
 #' the molecular candidates from the specified database. 
 #' 

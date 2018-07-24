@@ -139,12 +139,15 @@ class MetfRag {
 		}
 
 		// apply the pre-processing filters
-		CandidateList candidates = mp.getCandidateList();
+		CandidateList candidates = mp.getCandidateList().clone();
         for (int i = (candidates.getNumberElements() - 1); i >= 0; i--) {
             if (! mp.applyPreProcessingFilterToCandidate(candidates.getElement(i))) {
                 candidates.removeElement(i);
             }
         }
+
+        // nullify the metfrag process
+        mp.nullify();
 
 		return candidates;
 	}
