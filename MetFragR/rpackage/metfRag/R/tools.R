@@ -56,8 +56,8 @@ plotMol <- function(mol=NULL, smiles=NULL, width = 200, height = 200, watermark=
   if (missing(mol)) {
     mol <- parse.smiles(smiles)[[1]]
   }
-  #  img <- view.image.2d(mol, width = 1024, height = 1024)
-  img <- view.image.2d(mol, width = width, height = height)
+  dep <- get.depictor(width = width, height = height)
+  img <- view.image.2d(mol, dep)
   plot.new()
   plot.window(xlim=c(0,1), ylim=c(0,1))
   if (!is.null(watermark)) {
@@ -86,7 +86,7 @@ alpha2image <- function(img, threshold=0.5) {
   d[3] <- 4
   a3 <- array(dim=d)
   
-  a3[,,1:3] <- a2
+  a3[,,1:3] <- a2[,,1:3]
   a3[,,4] <- alpha
   
   img <- as.raster(a3)  
@@ -103,7 +103,7 @@ alpha2image <- function(img, threshold=0.5) {
 #' @aliases getMCSS
 #' @usage getMCSS(mols)
 #' @param mols The a list of rCDK \code{mols}
-#' @author Steffen Neumann (\email{sneumann@@ipb-halle.de})
+#' @author Steffen Neumann (\email{sneumann@ipb-halle.de})
 #' @examples 
 #'        library(rcdk)
 #'        smiles <- c('CCC', 'CCN', 'CCN(C)(C)',
