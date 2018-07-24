@@ -303,5 +303,5 @@ run.candidateRetrieval<-function(settingsObject) {
         }
     })
     
-    return(as.data.frame(candidateProperties))
+    return(as.data.frame(candidateProperties, stringsAsFactors = FALSE))
 }
