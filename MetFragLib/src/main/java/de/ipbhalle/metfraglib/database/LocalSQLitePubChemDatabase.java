@@ -23,6 +23,8 @@ import edu.emory.mathcs.backport.java.util.Arrays;
  * - XLogP3
  *
  * Those might be specific to PubChem databases.
+ *
+ * @author Eric Bach (eric.bach@aalto.fi)
  */
 public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 
@@ -135,11 +137,19 @@ public class LocalSQLitePubChemDatabase extends AbstractLocalDatabase {
 	public CandidateList getCandidateByIdentifier(Vector<String> identifiers) {
 		if(identifiers.size() == 0) return new CandidateList();
 
-        String query = base_candidate_property_query + " where " + CID_COLUMN_NAME + " in (\"" + identifiers.get(0) + "\"";
-        for(int i = 1; i < identifiers.size(); i++)
-            query += ",\"" + identifiers.get(i) + "\"";
-        query += ");";
-        
+		StringBuilder query_builder = new StringBuilder(2048);
+		query_builder.append(base_candidate_property_query + " where " + CID_COLUMN_NAME + " in (\"" + identifiers.get(0) + "\"");
+
+        for(int i = 1; i < identifiers.size(); i++){
+            query_builder.append(",\"");
+            query_builder.append(identifiers.get(i));
+            query_builder.append("\"");
+        }
+        query_builder.append(");");
+
+        String query = query_builder.toString();
+        query_builder = null;
+
         logger.trace(query);
 
 		ResultSet rs = this.submitQuery(query);
