@@ -184,6 +184,9 @@ run.candidateRetrieval_2<-function(settingsObject) {
         })
     })
     
+    # TODO: TEST!!!
+    .jcall(candidateList, "V", "nullify")
+    
     sapply(1:length(propertyNames), function(propertyIndex) {
         datatype <- datatypes[[propertyNames[propertyIndex]]]
         if(datatype == "java.lang.Double" ||
